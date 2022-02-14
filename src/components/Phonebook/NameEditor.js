@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../redux/PhoneBook/phone-book-operations';
+import { addContact } from '../redux/PhoneBook/phone-book-actions';
 import PropTypes from 'prop-types';
 import { Form, Label, InputField, AddButton } from './NameEditor.styled';
 
@@ -25,7 +25,7 @@ export default function NameEditor() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addContact({ nick, number }));
+    dispatch(addContact(nick, number));
     setNick('');
     setNumber('');
   };
