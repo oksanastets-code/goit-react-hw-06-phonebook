@@ -1,12 +1,7 @@
-import {
-  configureStore,
-  getDefaultMiddleware,
-
-} from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+// import { setupListeners } from '@reduxjs/toolkit/query';
 import logger from 'redux-logger';
 import {
-  persistStore,
-  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -14,25 +9,29 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import phonebookReducer from './PhoneBook/phone-book-reducer';
-const persistConfig = {
-  key: 'contacts',
-  storage,
-  blacklist: ['filter'],
-};
+// import { PhoneBookApi } from './phone-book-api';
+
 const middleware = [
   ...getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }),
-  logger,
+  // logger,
 ];
 
 export const store = configureStore({
-  reducer: { phonebook: persistReducer(persistConfig, phonebookReducer) },
-  middleware,
-  devTools: process.env.NODE_ENV === 'development',
+  reducer: {
+    phonebook: phonebookReducer,
+    // [PhoneBookApi.reducerPath]: PhoneBookApi.reducer,
+  },
+  // middleware: getDefaultMiddleware => [
+  //   ...getDefaultMiddleware(),
+    middleware,
+    // PhoneBookApi.middleware,
+  // ],
+  // devTools: process.env.NODE_ENV === 'development',
 });
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);
+// setupListeners(store.dispatch);
